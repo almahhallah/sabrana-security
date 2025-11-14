@@ -2,107 +2,274 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sabrana Cyber Security</title>
+    <title>CyberSec Academy - Professional Training</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .header { background: #1f6feb; color: white; padding: 30px; text-align: center; border-radius: 10px; margin-bottom: 20px; }
-        .hack-section { background: #161b22; padding: 20px; margin: 20px 0; border-radius: 10px; border: 1px solid #30363d; }
-        input, textarea { width: 100%; padding: 10px; margin: 10px 0; background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 5px; }
-        button { background: #1f6feb; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
-        button:hover { background: #2a7cff; }
-        .result { padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .success { background: #1a5321; border: 1px solid #2ea043; }
-        .warning { background: #5a3807; border: 1px solid #d29922; }
-        .error { background: #5a1e1e; border: 1px solid #f85149; }
-        code { background: #30363d; padding: 2px 6px; border-radius: 3px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background: #0f172a; color: #f1f5f9; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        /* Header */
+        .header { 
+            background: linear-gradient(135deg, #1e40af, #3730a3);
+            padding: 50px 30px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        
+        /* Login Section */
+        .login-section { 
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            margin-bottom: 30px;
+        }
+        
+        /* Dashboard */
+        .dashboard { display: none; }
+        .course-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin: 30px 0; }
+        .course-card { background: #334155; padding: 25px; border-radius: 10px; border: 1px solid #475569; }
+        
+        /* Forms */
+        input, textarea { 
+            width: 100%; 
+            padding: 15px; 
+            margin: 10px 0; 
+            background: #334155; 
+            border: 1px solid #475569; 
+            color: white; 
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        button { 
+            background: #2563eb; 
+            color: white; 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        
+        button:hover { background: #1d4ed8; }
+        button.success { background: #059669; }
+        button.danger { background: #dc2626; }
+        .hidden { display: none; }
+        
+        /* Alerts */
+        .alert { padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .alert-success { background: #065f46; border: 1px solid #047857; }
+        .alert-danger { background: #7f1d1d; border: 1px solid #dc2626; }
+        .alert-warning { background: #78350f; border: 1px solid #d97706; }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <div class="header">
-            <h1>Sabrana Cyber Security</h1>
-            <p>Ethical Hacking Training Platform</p>
+            <h1 style="font-size: 2.5em; margin-bottom: 10px;">CyberSec Academy</h1>
+            <p style="font-size: 1.2em; opacity: 0.9;">Advanced Cybersecurity Certification Programs</p>
         </div>
 
-        <!-- SQL Injection Section -->
-        <div class="hack-section">
-            <h2>SQL Injection Test</h2>
-            <p>Try: <code>' OR '1'='1</code> or <code>' UNION SELECT 1,2,3-- -</code></p>
-            <form onsubmit="testSQLi(event)">
-                <input type="text" id="sqlInput" placeholder="Enter SQL payload..." required>
-                <button type="submit">Execute SQL Injection</button>
+        <!-- Login Section -->
+        <div class="login-section" id="loginSection">
+            <h2 style="margin-bottom: 20px;">Student Portal Access</h2>
+            <form onsubmit="handleLogin(event)">
+                <input type="text" id="email" placeholder="Email Address" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" style="width: 100%;">Sign In to Dashboard</button>
             </form>
-            <div id="sqlResult"></div>
+            <div id="loginResult"></div>
         </div>
 
-        <!-- XSS Section -->
-        <div class="hack-section">
-            <h2>XSS Attack Test</h2>
-            <p>Try: <code>&lt;script&gt;alert('Hacked')&lt;/script&gt;</code> or <code>&lt;img src=x onerror=alert(1)&gt;</code></p>
-            <form onsubmit="testXSS(event)">
-                <textarea id="xssInput" placeholder="Enter XSS payload..." rows="3" required></textarea>
-                <button type="submit">Execute XSS Attack</button>
-            </form>
-            <div id="xssResult"></div>
-        </div>
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <!-- User Info -->
+            <div style="background: #334155; padding: 25px; border-radius: 10px; margin-bottom: 30px;">
+                <h2>Welcome, <span id="userName">Student</span></h2>
+                <p>Account Balance: $<span id="userBalance">0</span> | Role: <span id="userRole">Student</span></p>
+                <button onclick="logout()" class="danger" style="float: right;">Logout</button>
+            </div>
 
-        <!-- Sensitive Information -->
-        <div class="hack-section">
-            <h2>System Information</h2>
-            <div id="info">
-                <p><strong>Company:</strong> Sabrana Cyber Security</p>
-                <p><strong>Version:</strong> SEC-OS v3.2.1</p>
-                <p><strong>Users:</strong> admin, root, security-agent</p>
-                <p><strong>Last Update:</strong> 2024-01-15</p>
+            <!-- Courses -->
+            <h2 style="margin-bottom: 20px;">Available Certification Programs</h2>
+            <div class="course-grid">
+                <div class="course-card">
+                    <h3>Ethical Hacking Professional</h3>
+                    <p style="margin: 10px 0; opacity: 0.8;">Master penetration testing and vulnerability assessment</p>
+                    <p style="font-size: 1.3em; color: #10b981; margin: 15px 0;"><strong>$497</strong></p>
+                    <button class="success" onclick="selectCourse('Ethical Hacking Professional', 497)">Enroll Now</button>
+                </div>
+
+                <div class="course-card">
+                    <h3>Web Security Expert</h3>
+                    <p style="margin: 10px 0; opacity: 0.8;">Advanced SQL Injection, XSS, and CSRF defense</p>
+                    <p style="font-size: 1.3em; color: #10b981; margin: 15px 0;"><strong>$397</strong></p>
+                    <button class="success" onclick="selectCourse('Web Security Expert', 397)">Enroll Now</button>
+                </div>
+
+                <div class="course-card">
+                    <h3>Cloud Security Architect</h3>
+                    <p style="margin: 10px 0; opacity: 0.8;">AWS, Azure, and GCP security implementation</p>
+                    <p style="font-size: 1.3em; color: #10b981; margin: 15px 0;"><strong>$597</strong></p>
+                    <button class="success" onclick="selectCourse('Cloud Security Architect', 597)">Enroll Now</button>
+                </div>
+            </div>
+
+            <!-- Payment Section -->
+            <div id="paymentSection" class="hidden" style="background: #1e293b; padding: 30px; border-radius: 10px; margin-top: 30px;">
+                <h2>Complete Enrollment</h2>
+                <p style="margin: 15px 0;">Course: <strong id="selectedCourse">None</strong> - $<span id="coursePrice">0</span></p>
+                
+                <form onsubmit="processPayment(event)">
+                    <input type="text" id="cardName" placeholder="Cardholder Name" required>
+                    <input type="text" id="cardNumber" placeholder="Card Number" required>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <input type="text" id="expiry" placeholder="MM/YY" required>
+                        <input type="text" id="cvv" placeholder="CVV" required>
+                    </div>
+                    <button type="submit" class="success" style="width: 100%; margin-top: 20px;">
+                        Complete Payment - $<span id="finalPrice">0</span>
+                    </button>
+                </form>
+                
+                <div id="paymentResult" style="margin-top: 20px;"></div>
+            </div>
+
+            <!-- Admin Panel -->
+            <div id="adminPanel" class="hidden">
+                <div class="alert alert-warning">
+                    <h3>ADMINISTRATOR ACCESS</h3>
+                    <p>Full system privileges enabled</p>
+                </div>
+                
+                <div style="background: #334155; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <h4>System Configuration</h4>
+                    <pre id="configData" style="background: #1e293b; padding: 15px; border-radius: 5px; overflow-x: auto; margin: 15px 0;">
+Database Host: db.cybersec-academy.com
+API Key: sk_live_51MbXy2KvI8Tk4Pw9L3jH6nG7fDcE5rT
+Secret Key: cybersec_2024_prod_secret_88912a3b
+JWT Secret: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+Payment Gateway: STRIPE_LIVE
+                    </pre>
+                    <button class="danger" onclick="downloadUserData()">Export All User Data</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // SQL Injection Simulation
-        function testSQLi(event) {
-            event.preventDefault();
-            const payload = document.getElementById('sqlInput').value;
-            const resultDiv = document.getElementById('sqlResult');
+        // ==================== VULNERABLE CONFIGURATION ====================
+        const SYSTEM_CONFIG = {
+            // VULNERABILITY: Hardcoded credentials
+            users: {
+                'admin@cybersec.com': { 
+                    password: 'Admin123!', 
+                    name: 'System Admin', 
+                    balance: 10000, 
+                    role: 'admin' 
+                },
+                'student@academy.com': { 
+                    password: 'StudentPass2024!', 
+                    name: 'John Doe', 
+                    balance: 500, 
+                    role: 'student' 
+                }
+            },
             
-            if (payload.includes("' OR '1'='1") || payload.includes("' OR 1=1--")) {
-                resultDiv.innerHTML = `
-                    <div class="result error">
-                        <h3>SQL Injection Successful!</h3>
-                        <p><strong>Stolen Data:</strong></p>
-                        <ul>
-                            <li>User Credentials: admin / ********</li>
-                            <li>Database Records: 1,250 entries</li>
-                            <li>Server Information: Ubuntu 22.04</li>
-                        </ul>
-                    </div>
-                `;
-            } else if (payload.includes("UNION SELECT")) {
-                resultDiv.innerHTML = `
-                    <div class="result error">
-                        <h3>Database Dump Successful!</h3>
-                        <p>Extracted database structure and user tables</p>
-                    </div>
-                `;
+            // VULNERABILITY: Exposed API keys
+            api: {
+                stripe: 'sk_live_51MbXy2KvI8Tk4Pw9L3jH6nG7fDcE5rT',
+                aws: 'AKIAIOSFODNN7EXAMPLE',
+                database: 'mysql://admin:CyberSec2024!@db.cybersec-academy.com/prod'
+            },
+            
+            // VULNERABILITY: Debug mode enabled in production
+            debug: true
+        };
+
+        // ==================== VULNERABLE AUTHENTICATION ====================
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('loginResult");
+
+            // VULNERABILITY: Client-side authentication
+            if (SYSTEM_CONFIG.users[email] && SYSTEM_CONFIG.users[email].password === password) {
+                loginUser(SYSTEM_CONFIG.users[email]);
+                resultDiv.innerHTML = '<div class="alert alert-success">Login successful! Redirecting...</div>';
             } else {
-                resultDiv.innerHTML = `
-                    <div class="result warning">
-                        <h3>SQL Injection Failed</h3>
-                        <p>Try using: <code>' OR '1'='1</code></p>
-                    </div>
-                `;
+                resultDiv.innerHTML = '<div class="alert alert-danger">Invalid email or password</div>';
             }
         }
 
-        // XSS Vulnerability (Real)
-        function testXSS(event) {
-            event.preventDefault();
-            const payload = document.getElementById('xssInput').value;
-            const resultDiv = document.getElementById('xssResult');
+        function loginUser(user) {
+            currentUser = user;
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('userBalance').textContent = user.balance;
+            document.getElementById('userRole').textContent = user.role;
             
-            // Real XSS vulnerability - no filtering!
-            resultDiv.innerHTML = payload;
+            if (user.role === 'admin') {
+                document.getElementById('adminPanel').classList.remove('hidden');
+            }
+        }
+
+        // ==================== VULNERABLE PAYMENT PROCESSING ====================
+        function processPayment(event) {
+            event.preventDefault();
+            const cardName = document.getElementById('cardName').value;
+            const resultDiv = document.getElementById('paymentResult');
+
+            // VULNERABILITY: No input sanitization
+            resultDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <h3>Payment Processing</h3>
+                    <p><strong>Course:</strong> ${selectedCourse}</p>
+                    <p><strong>Amount:</strong> $${selectedPrice}</p>
+                    <p><strong>Cardholder:</strong> ${cardName}</p>
+                    <p><strong>Status:</strong> Transaction approved</p>
+                </div>
+            `;
+        }
+
+        // ==================== NORMAL APPLICATION LOGIC ====================
+        let currentUser = null;
+        let selectedCourse = null;
+        let selectedPrice = 0;
+
+        function selectCourse(course, price) {
+            selectedCourse = course;
+            selectedPrice = price;
+            document.getElementById('selectedCourse').textContent = course;
+            document.getElementById('coursePrice').textContent = price;
+            document.getElementById('finalPrice').textContent = price;
+            document.getElementById('paymentSection').classList.remove('hidden');
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('paymentSection').classList.add('hidden');
+            document.getElementById('loginResult').innerHTML = '';
+        }
+
+        function downloadUserData() {
+            alert('SECURITY BREACH: All user data exported! This vulnerability could expose personal information, payment records, course progress, and system credentials.');
+        }
+
+        // VULNERABILITY: Debug information in console
+        if (SYSTEM_CONFIG.debug) {
+            console.log('DEBUG: System configuration loaded', SYSTEM_CONFIG);
+            console.log('DEBUG: Test accounts available', Object.keys(SYSTEM_CONFIG.users));
         }
     </script>
 </body>
