@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sabrana Cyber Security</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { background: #1f6feb; color: white; padding: 30px; text-align: center; border-radius: 10px; margin-bottom: 20px; }
+        .hack-section { background: #161b22; padding: 20px; margin: 20px 0; border-radius: 10px; border: 1px solid #30363d; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 5px; }
+        button { background: #1f6feb; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #2a7cff; }
+        .result { padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #1a5321; border: 1px solid #2ea043; }
+        .warning { background: #5a3807; border: 1px solid #d29922; }
+        .error { background: #5a1e1e; border: 1px solid #f85149; }
+        code { background: #30363d; padding: 2px 6px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sabrana Cyber Security</h1>
+            <p>Ethical Hacking Training Platform</p>
+        </div>
+
+        <!-- SQL Injection Section -->
+        <div class="hack-section">
+            <h2>SQL Injection Test</h2>
+            <p>Try: <code>' OR '1'='1</code> or <code>' UNION SELECT 1,2,3-- -</code></p>
+            <form onsubmit="testSQLi(event)">
+                <input type="text" id="sqlInput" placeholder="Enter SQL payload..." required>
+                <button type="submit">Execute SQL Injection</button>
+            </form>
+            <div id="sqlResult"></div>
+        </div>
+
+        <!-- XSS Section -->
+        <div class="hack-section">
+            <h2>XSS Attack Test</h2>
+            <p>Try: <code>&lt;script&gt;alert('Hacked')&lt;/script&gt;</code> or <code>&lt;img src=x onerror=alert(1)&gt;</code></p>
+            <form onsubmit="testXSS(event)">
+                <textarea id="xssInput" placeholder="Enter XSS payload..." rows="3" required></textarea>
+                <button type="submit">Execute XSS Attack</button>
+            </form>
+            <div id="xssResult"></div>
+        </div>
+
+        <!-- Sensitive Information -->
+        <div class="hack-section">
+            <h2>System Information</h2>
+            <div id="info">
+                <p><strong>Company:</strong> Sabrana Cyber Security</p>
+                <p><strong>Version:</strong> SEC-OS v3.2.1</p>
+                <p><strong>Users:</strong> admin, root, security-agent</p>
+                <p><strong>Last Update:</strong> 2024-01-15</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SQL Injection Simulation
+        function testSQLi(event) {
+            event.preventDefault();
+            const payload = document.getElementById('sqlInput').value;
+            const resultDiv = document.getElementById('sqlResult');
+            
+            if (payload.includes("' OR '1'='1") || payload.includes("' OR 1=1--")) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>SQL Injection Successful!</h3>
+                        <p><strong>Stolen Data:</strong></p>
+                        <ul>
+                            <li>User Credentials: admin / ********</li>
+                            <li>Database Records: 1,250 entries</li>
+                            <li>Server Information: Ubuntu 22.04</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (payload.includes("UNION SELECT")) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>Database Dump Successful!</h3>
+                        <p>Extracted database structure and user tables</p>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="result warning">
+                        <h3>SQL Injection Failed</h3>
+                        <p>Try using: <code>' OR '1'='1</code></p>
+                    </div>
+                `;
+            }
+        }
+
+        // XSS Vulnerability (Real)
+        function testXSS(event) {
+            event.preventDefault();
+            const payload = document.getElementById('xssInput').value;
+            const resultDiv = document.getElementById('xssResult');
+            
+            // Real XSS vulnerability - no filtering!
+            resultDiv.innerHTML = payload;
+        }
+    </script>
+</body>
+</html>
