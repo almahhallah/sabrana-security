@@ -198,14 +198,16 @@ Payment Gateway: STRIPE_LIVE
             event.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const resultDiv = document.getElementById('loginResult");
+            const resultDiv = document.getElementById('loginResult');
 
             // VULNERABILITY: Client-side authentication
             if (SYSTEM_CONFIG.users[email] && SYSTEM_CONFIG.users[email].password === password) {
                 loginUser(SYSTEM_CONFIG.users[email]);
                 resultDiv.innerHTML = '<div class="alert alert-success">Login successful! Redirecting...</div>';
+                return true;
             } else {
                 resultDiv.innerHTML = '<div class="alert alert-danger">Invalid email or password</div>';
+                return false;
             }
         }
 
