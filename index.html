@@ -2,13 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CyberSec Academy - Professional Training</title>
+    <title>CyberSec Academy - Vulnerable Training Platform</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Arial', sans-serif; background: #0f172a; color: #f1f5f9; line-height: 1.6; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         
-        /* Header */
         .header { 
             background: linear-gradient(135deg, #1e40af, #3730a3);
             padding: 50px 30px;
@@ -18,8 +17,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
         
-        /* Login Section */
-        .login-section { 
+        .login-section, .search-section { 
             background: #1e293b;
             padding: 40px;
             border-radius: 12px;
@@ -27,21 +25,10 @@
             margin-bottom: 30px;
         }
         
-        /* Search Section */
-        .search-section {
-            background: #1e293b;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            margin-bottom: 30px;
-        }
-        
-        /* Dashboard */
         .dashboard { display: none; }
         .course-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin: 30px 0; }
         .course-card { background: #334155; padding: 25px; border-radius: 10px; border: 1px solid #475569; }
         
-        /* Forms */
         input, textarea { 
             width: 100%; 
             padding: 15px; 
@@ -70,19 +57,25 @@
         button.danger { background: #dc2626; }
         .hidden { display: none; }
         
-        /* Alerts */
         .alert { padding: 15px; border-radius: 8px; margin: 15px 0; }
         .alert-success { background: #065f46; border: 1px solid #047857; }
         .alert-danger { background: #7f1d1d; border: 1px solid #dc2626; }
         .alert-warning { background: #78350f; border: 1px solid #d97706; }
         
-        /* Search Results */
         .search-results { 
             background: #334155; 
             padding: 20px; 
             border-radius: 8px; 
             margin-top: 15px;
             border: 1px solid #475569;
+        }
+
+        .vulnerability-note {
+            background: #7f1d1d;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid #dc2626;
         }
     </style>
 </head>
@@ -91,7 +84,7 @@
         <!-- Header -->
         <div class="header">
             <h1 style="font-size: 2.5em; margin-bottom: 10px;">CyberSec Academy</h1>
-            <p style="font-size: 1.2em; opacity: 0.9;">Advanced Cybersecurity Certification Programs</p>
+            <p style="font-size: 1.2em; opacity: 0.9;">Vulnerable Web Application - For Educational Purposes</p>
         </div>
 
         <!-- Login Section -->
@@ -103,6 +96,14 @@
                 <button type="submit" style="width: 100%;">Sign In to Dashboard</button>
             </form>
             <div id="loginResult"></div>
+            
+            <!-- Test Credentials -->
+            <div style="margin-top: 20px; padding: 15px; background: #334155; border-radius: 8px;">
+                <h4>Test Accounts:</h4>
+                <p><strong>Admin:</strong> admin@cybersec.com / Admin123!</p>
+                <p><strong>Student:</strong> student@academy.com / StudentPass2024!</p>
+                <p><strong>SQL Injection:</strong> ' OR '1'='1' -- / anything</p>
+            </div>
         </div>
 
         <!-- Dashboard -->
@@ -114,12 +115,12 @@
                 <button onclick="logout()" class="danger" style="float: right;">Logout</button>
             </div>
 
-            <!-- 🔥 NEW: Vulnerable Search Section -->
+            <!-- Vulnerable Search Section -->
             <div class="search-section">
-                <h3>🔍 Search Course Database</h3>
-                <p style="opacity: 0.8; margin-bottom: 15px;">Find courses by name, instructor, or category</p>
+                <h3>Vulnerable Course Search</h3>
+                <p style="opacity: 0.8; margin-bottom: 15px;">SQL Injection Vulnerability - Try malicious payloads</p>
                 <form onsubmit="searchCourses(event)">
-                    <input type="text" id="searchQuery" placeholder="Enter search term..." required>
+                    <input type="text" id="searchQuery" placeholder="Enter search term or SQL injection payload..." required>
                     <button type="submit">Search Courses</button>
                 </form>
                 <div id="searchResults" class="search-results">
@@ -176,17 +177,18 @@
             <div id="adminPanel" class="hidden">
                 <div class="alert alert-warning">
                     <h3>ADMINISTRATOR ACCESS</h3>
-                    <p>Full system privileges enabled</p>
+                    <p>Full system privileges enabled - Critical vulnerabilities exposed</p>
                 </div>
                 
                 <div style="background: #334155; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                    <h4>System Configuration</h4>
+                    <h4>Exposed System Configuration</h4>
                     <pre id="configData" style="background: #1e293b; padding: 15px; border-radius: 5px; overflow-x: auto; margin: 15px 0;">
 Database Host: db.cybersec-academy.com
 API Key: sk_live_51MbXy2KvI8Tk4Pw9L3jH6nG7fDcE5rT
 Secret Key: cybersec_2024_prod_secret_88912a3b
 JWT Secret: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 Payment Gateway: STRIPE_LIVE
+Admin Password: SuperSecret123!
                     </pre>
                     <button class="danger" onclick="downloadUserData()">Export All User Data</button>
                 </div>
@@ -195,9 +197,10 @@ Payment Gateway: STRIPE_LIVE
     </div>
 
     <script>
-        // ==================== VULNERABLE CONFIGURATION ====================
+        // ==================== CONFIGURATION ====================
+        const BACKEND_URL = "https://your-app.onrender.com"; // سيتم تغييره بعد النشر
+
         const SYSTEM_CONFIG = {
-            // VULNERABILITY: Hardcoded credentials
             users: {
                 'admin@cybersec.com': { 
                     password: 'Admin123!', 
@@ -211,124 +214,64 @@ Payment Gateway: STRIPE_LIVE
                     balance: 500, 
                     role: 'student' 
                 }
-            },
-            
-            // VULNERABILITY: Exposed API keys
-            api: {
-                stripe: 'sk_live_51MbXy2KvI8Tk4Pw9L3jH6nG7fDcE5rT',
-                aws: 'AKIAIOSFODNN7EXAMPLE',
-                database: 'mysql://admin:CyberSec2024!@db.cybersec-academy.com/prod'
-            },
-            
-            // VULNERABILITY: Debug mode enabled in production
-            debug: true
-        };
-
-        // ==================== VULNERABLE DATABASE SIMULATION ====================
-        const VULNERABLE_DATABASE = {
-            courses: [
-                { id: 1, name: 'Ethical Hacking Professional', instructor: 'John Smith', price: 497 },
-                { id: 2, name: 'Web Security Expert', instructor: 'Sarah Johnson', price: 397 },
-                { id: 3, name: 'Cloud Security Architect', instructor: 'Mike Chen', price: 597 },
-                { id: 4, name: 'Network Defense', instructor: 'Alex Rodriguez', price: 347 },
-                { id: 5, name: 'Digital Forensics', instructor: 'Emily Davis', price: 447 }
-            ],
-            users: [
-                { id: 1, username: 'admin', email: 'admin@cybersec.com', password: 'Admin123!' },
-                { id: 2, username: 'student1', email: 'student@academy.com', password: 'StudentPass2024!' },
-                { id: 3, username: 'instructor1', email: 'instructor@academy.com', password: 'Teach2024!' }
-            ],
-            system: [
-                { id: 1, config: 'database_password', value: 'CyberSec2024!' },
-                { id: 2, config: 'api_secret', value: 'sk_live_51MbXy2KvI8Tk4Pw9L3jH6nG7fDcE5rT' },
-                { id: 3, config: 'admin_token', value: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' }
-            ]
-        };
-
-        // ==================== 🔥 VULNERABLE SQL INJECTION FUNCTION ====================
-        function vulnerableSQLQuery(input) {
-            // VULNERABILITY: Direct string concatenation - SQL Injection possible!
-            const fakeQuery = SELECT * FROM courses WHERE name LIKE '%${input}%' OR instructor LIKE '%${input}%';
-            
-            // Simulate database query (in real app this would go to actual DB)
-            let results = [];
-            
-            try {
-                // This simulates what would happen with SQL Injection
-                if (input.includes("' OR '1'='1")) {
-                    // Return ALL courses (SQL Injection success)
-                    results = VULNERABLE_DATABASE.courses;
-                } 
-                else if (input.includes("' UNION SELECT")) {
-                    // Attempt to extract other data
-                    results = [
-                        ...VULNERABLE_DATABASE.courses,
-                        ...VULNERABLE_DATABASE.users,  // Exposing users!
-                        ...VULNERABLE_DATABASE.system  // Exposing system config!
-                    ];
-                }
-                else if (input.includes("'; DROP")) {
-                    // Simulate destructive query
-                    results = [{ error: "Database table dropped - SYSTEM COMPROMISED" }];
-                }
-                else {
-                    // Normal search
-                    results = VULNERABLE_DATABASE.courses.filter(course => 
-                        course.name.toLowerCase().includes(input.toLowerCase()) ||
-                        course.instructor.toLowerCase().includes(input.toLowerCase())
-                    );
-                }
-            } catch (e) {
-                results = [{ error: "Database error: " + e.message }];
             }
-            
-            return {
-                query: fakeQuery,
-                results: results,
-                vulnerable: true // Flag to show this is intentionally vulnerable
-            };
+        };
+
+        // ==================== VULNERABLE API FUNCTIONS ====================
+        async function vulnerableSearch(input) {
+            try {
+                const response = await fetch(${BACKEND_URL}/api/search?q=${encodeURIComponent(input)});
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                return { results: [], error: error.message, query: SELECT * FROM courses WHERE name LIKE '%${input}%' };
+            }
         }
 
-        // ==================== VULNERABLE SEARCH FUNCTION ====================
-        function searchCourses(event) {
+        async function vulnerableLogin(email, password) {
+            try {
+                const response = await fetch(${BACKEND_URL}/api/login, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                return await response.json();
+            } catch (error) {
+                // Fallback to client-side validation if backend is down
+                if (SYSTEM_CONFIG.users[email] && SYSTEM_CONFIG.users[email].password === password) {
+                    return { success: true, user: SYSTEM_CONFIG.users[email] };
+                }
+                return { success: false, message: "Invalid credentials" };
+            }
+        }
+
+        // ==================== VULNERABLE SEARCH ====================
+        async function searchCourses(event) {
             event.preventDefault();
             const searchInput = document.getElementById('searchQuery').value;
             const resultsDiv = document.getElementById('searchResults');
             
-            // VULNERABILITY: No input sanitization before SQL query
-            const searchResult = vulnerableSQLQuery(searchInput);
+            resultsDiv.innerHTML = '<p>Searching database...</p>';
+            
+            const searchResult = await vulnerableSearch(searchInput);
             
             let html = <h4>Search Results for: "${searchInput}"</h4>;
             html += `<p style="opacity: 0.7; font-family: monospace; background: #1e293b; padding: 10px; border-radius: 5px; margin: 10px 0;">
-                     <strong>Executed Query:</strong> ${searchResult.query}</p>`;
+                     <strong>Executed SQL Query:</strong> ${searchResult.query}</p>`;
             
-            if (searchResult.results.length > 0) {
+            if (searchResult.results && searchResult.results.length > 0) {
                 html += '<div style="margin-top: 15px;">';
                 
                 searchResult.results.forEach(item => {
-                    if (item.name) {
-                        // Course result
-                        html += `<div style="background: #475569; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    if (item.name && item.price !== undefined) {
+                        const isSensitive = item.name.includes('ADMIN_') || item.name.includes('DATABASE_');
+                        const bgColor = isSensitive ? '#dc2626' : '#475569';
+                        const borderColor = isSensitive ? '#fca5a5' : '#475569';
+                        
+                        html += `<div style="background: ${bgColor}; padding: 15px; border-radius: 5px; margin: 10px 0; border: 2px solid ${borderColor};">
                                 <strong>${item.name}</strong> - $${item.price}<br>
                                 <small>Instructor: ${item.instructor}</small>
-                                </div>`;
-                    } else if (item.username) {
-                        // USER DATA EXPOSED! - SQL Injection successful
-                        html += `<div style="background: #dc2626; padding: 15px; border-radius: 5px; margin: 10px 0; border: 2px solid #fca5a5;">
-                                <strong style="color: white;">🚨 SECURITY BREACH - USER DATA:</strong><br>
-                                Username: ${item.username}<br>
-                                Email: ${item.email}<br>
-                                Password: ${item.password}
-                                </div>`;
-                    } else if (item.config) {
-                        // SYSTEM DATA EXPOSED! - SQL Injection successful
-                        html += `<div style="background: #b91c1c; padding: 15px; border-radius: 5px; margin: 10px 0; border: 2px solid #fecaca;">
-                                <strong style="color: white;">💥 CRITICAL BREACH - SYSTEM CONFIG:</strong><br>
-                                ${item.config}: ${item.value}
-                                </div>`;
-                    } else if (item.error) {
-                        html += `<div style="background: #78350f; padding: 15px; border-radius: 5px; margin: 10px 0;">
-                                <strong>Database Error:</strong> ${item.error}
+                                ${isSensitive ? '<br><small style="color: #fecaca;">SENSITIVE DATA EXPOSED!</small>' : ''}
                                 </div>`;
                     }
                 });
@@ -338,35 +281,42 @@ Payment Gateway: STRIPE_LIVE
                 html += '<p>No results found.</p>';
             }
             
-            // VULNERABILITY: Displaying raw query to attacker
+            // SQL Injection Guide
             html += `<div style="margin-top: 20px; padding: 15px; background: #1e293b; border-radius: 5px;">
-                    <strong>💡 SQL Injection Test Payloads:</strong><br>
-                    <code style="font-size: 0.9em;">
-                    ' OR '1'='1<br>
-                    ' UNION SELECT 1,2,3--<br>
-                    '; DROP TABLE courses--
+                    <strong>SQL Injection Testing Guide:</strong><br>
+                    <code style="font-size: 0.9em; display: block; margin: 10px 0;">
+                    <strong>Basic Bypass:</strong> ' OR '1'='1<br>
+                    <strong>Extract Data:</strong> ' UNION SELECT 1,username,password FROM users--<br>
+                    <strong>Database Info:</strong> ' UNION SELECT 1,version(),database()--<br>
+                    <strong>Destructive:</strong> '; DROP TABLE users--
                     </code>
+                    <small>Try these in the search box above!</small>
                     </div>`;
             
             resultsDiv.innerHTML = html;
         }
 
-        // ==================== REST OF YOUR ORIGINAL CODE ====================
-        function handleLogin(event) {
+        // ==================== VULNERABLE LOGIN ====================
+        async function handleLogin(event) {
             event.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const resultDiv = document.getElementById('loginResult');
-
-            if (SYSTEM_CONFIG.users[email] && SYSTEM_CONFIG.users[email].password === password) {
-                loginUser(SYSTEM_CONFIG.users[email]);
-                resultDiv.innerHTML = '<div class="alert alert-success">Login successful! Redirecting...</div>';
-                return true;
+            
+            const loginResult = await vulnerableLogin(email, password);
+            
+            if (loginResult.success) {
+                resultDiv.innerHTML = <div class="alert alert-success">${loginResult.message || 'Login successful!'}</div>;
+                loginUser(loginResult.user);
             } else {
-                resultDiv.innerHTML = '<div class="alert alert-danger">Invalid email or password</div>';
-                return false;
+                resultDiv.innerHTML = <div class="alert alert-danger">${loginResult.message || 'Invalid credentials'}</div>;
             }
         }
+
+        // ==================== APPLICATION LOGIC ====================
+        let currentUser = null;
+        let selectedCourse = null;
+        let selectedPrice = 0;
 
         function loginUser(user) {
             currentUser = user;
@@ -393,13 +343,10 @@ Payment Gateway: STRIPE_LIVE
                     <p><strong>Amount:</strong> $${selectedPrice}</p>
                     <p><strong>Cardholder:</strong> ${cardName}</p>
                     <p><strong>Status:</strong> Transaction approved</p>
+                    <small>Vulnerability: No input validation or sanitization</small>
                 </div>
             `;
         }
-
-        let currentUser = null;
-        let selectedCourse = null;
-        let selectedPrice = 0;
 
         function selectCourse(course, price) {
             selectedCourse = course;
@@ -416,16 +363,17 @@ Payment Gateway: STRIPE_LIVE
             document.getElementById('loginSection').style.display = 'block';
             document.getElementById('paymentSection').classList.add('hidden');
             document.getElementById('loginResult').innerHTML = '';
+            document.getElementById('adminPanel').classList.add('hidden');
         }
 
         function downloadUserData() {
-            alert('SECURITY BREACH: All user data exported! This vulnerability could expose personal information, payment records, course progress, and system credentials.');
+            alert('SECURITY BREACH: All user data exported!\n\nThis vulnerability could expose:\n- Personal information\n- Payment records\n- Login credentials\n- System configurations');
         }
 
-        if (SYSTEM_CONFIG.debug) {
-            console.log('DEBUG: System configuration loaded', SYSTEM_CONFIG);
-            console.log('DEBUG: Test accounts available', Object.keys(SYSTEM_CONFIG.users));
-        }
+        // Debug info
+        console.log('Vulnerable Web Application Loaded');
+        console.log('Try SQL Injection in search: \\' OR \\'1\\'=\\'1');
+        console.log('Try SQL Injection in login: \\' OR \\'1\\'=\\'1\\' --');
     </script>
 </body>
 </html>
